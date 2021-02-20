@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{788FDF73-2170-439F-A318-D6E553F80DFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullMarket.Domain", "src\BullMarket.Domain\BullMarket.Domain.csproj", "{D4108F2C-C0C4-4276-97E3-DAA987D7BBCF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullMarket.Application", "src\BullMarket.Application\BullMarket.Application.csproj", "{60BB7573-1C73-44DC-9492-205F549338D0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D4108F2C-C0C4-4276-97E3-DAA987D7BBCF} = {D4108F2C-C0C4-4276-97E3-DAA987D7BBCF}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullMarket.Infrastructure", "src\BullMarket.Infrastructure\BullMarket.Infrastructure.csproj", "{4950F6AC-43A1-4377-9B85-64D3F78C26F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullMarket.WebUI", "src\BullMarket.WebUI\BullMarket.WebUI.csproj", "{B6B0E7AF-0664-422D-AF2A-BD87420FEAA6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4108F2C-C0C4-4276-97E3-DAA987D7BBCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4108F2C-C0C4-4276-97E3-DAA987D7BBCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4108F2C-C0C4-4276-97E3-DAA987D7BBCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4108F2C-C0C4-4276-97E3-DAA987D7BBCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60BB7573-1C73-44DC-9492-205F549338D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60BB7573-1C73-44DC-9492-205F549338D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60BB7573-1C73-44DC-9492-205F549338D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60BB7573-1C73-44DC-9492-205F549338D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4950F6AC-43A1-4377-9B85-64D3F78C26F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4950F6AC-43A1-4377-9B85-64D3F78C26F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4950F6AC-43A1-4377-9B85-64D3F78C26F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4950F6AC-43A1-4377-9B85-64D3F78C26F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B0E7AF-0664-422D-AF2A-BD87420FEAA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B0E7AF-0664-422D-AF2A-BD87420FEAA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B0E7AF-0664-422D-AF2A-BD87420FEAA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B0E7AF-0664-422D-AF2A-BD87420FEAA6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D4108F2C-C0C4-4276-97E3-DAA987D7BBCF} = {788FDF73-2170-439F-A318-D6E553F80DFD}
+		{60BB7573-1C73-44DC-9492-205F549338D0} = {788FDF73-2170-439F-A318-D6E553F80DFD}
+		{4950F6AC-43A1-4377-9B85-64D3F78C26F1} = {788FDF73-2170-439F-A318-D6E553F80DFD}
+		{B6B0E7AF-0664-422D-AF2A-BD87420FEAA6} = {788FDF73-2170-439F-A318-D6E553F80DFD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CF041F1-FD60-4363-B991-6041EFEDBBD2}
+	EndGlobalSection
+EndGlobal
