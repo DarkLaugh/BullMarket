@@ -33,6 +33,7 @@ namespace BullMarket.WebUI
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddHostedService<MigratorService>();
+            services.AddHostedService<StreamingService>();
             services.AddControllers();
             services.AddSignalR();
         }
