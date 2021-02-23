@@ -1,4 +1,6 @@
 ﻿using Alpaca.Markets;
+using BullMarket.Infrastructure.Services.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -12,12 +14,14 @@ namespace BullMarket.Infrastructure.Services
     public class StreamingService : IHostedService
     {
         private readonly IConfiguration _configuration;
+        private readonly IHubContext<StockUpdateHub> _stockUpdateHub;
         private IAlpacaDataStreamingClient _client;
         private IAlpacaDataSubscription<IStreamQuote> _subscription;
 
-        public StreamingService(IConfiguration configuration)
+        public StreamingService(IConfiguration configuration, IHubContext<StockUpdateHub> stockUpdateHub)
         {
             _configuration = configuration;
+            _stockUpdateHub = stockUpdateHub;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -30,7 +34,7 @@ namespace BullMarket.Infrastructure.Services
 
             _subscription = _client.GetQuoteSubscription("AAPL");
 
-            _subscription.Received += SubscriptionResult_Received;
+            _subscription.Received += async (result) => await SubscriptionResult_Received(result);
 
             _client.Subscribe(_subscription);
         }
@@ -42,9 +46,9 @@ namespace BullMarket.Infrastructure.Services
             await _client.DisconnectAsync();
         }
 
-        private void SubscriptionResult_Received(IStreamQuote obj)
+        private async Task SubscriptionResult_Received(IStreamQuote obj)
         {
-            Console.WriteLine(obj.AskPrice);
+            await _stockUpdateHub.Clients.All.SendAsync("stockUpdate", obj);
         }
     }
 }
