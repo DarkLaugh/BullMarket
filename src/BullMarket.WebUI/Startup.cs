@@ -1,20 +1,12 @@
 using BullMarket.Application;
 using BullMarket.Infrastructure;
-using BullMarket.Infrastructure.Persistence;
 using BullMarket.Infrastructure.Services;
-using BullMarket.WebUI.Hubs;
+using BullMarket.Infrastructure.Services.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BullMarket.WebUI
 {
@@ -55,7 +47,7 @@ namespace BullMarket.WebUI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<StockChangesHub>("/hubs/stocks");
+                endpoints.MapHub<StockUpdateHub>("/hubs/stocks");
             });
         }
     }
