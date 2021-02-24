@@ -9,15 +9,17 @@ namespace BullMarket.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Stock> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Abbreviation)
-                .HasMaxLength(6)
+            builder.Property(x => x.ClassName)
+                .HasMaxLength(50)
                 .IsRequired();
-            builder.Property(x => x.CurrentPrice)
+            builder.Property(x => x.Exchange)
+                .HasMaxLength(10)
                 .IsRequired();
-            builder.Property(x => x.Name)
-                .HasMaxLength(255)
+            builder.Property(x => x.Status)
+                .HasMaxLength(8)
                 .IsRequired();
-            builder.Property(x => x.QuantityAvailable)
+            builder.Property(x => x.Symbol)
+                .HasMaxLength(10)
                 .IsRequired();
         }
     }
