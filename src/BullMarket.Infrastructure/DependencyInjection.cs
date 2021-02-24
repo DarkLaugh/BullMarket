@@ -3,6 +3,7 @@ using BullMarket.Domain.Entities;
 using BullMarket.Infrastructure.Persistence;
 using BullMarket.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,7 @@ namespace BullMarket.Infrastructure
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             services.AddTransient<IStockService, StockService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }

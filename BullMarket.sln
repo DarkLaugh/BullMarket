@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullMarket.Application", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullMarket.Infrastructure", "src\BullMarket.Infrastructure\BullMarket.Infrastructure.csproj", "{4950F6AC-43A1-4377-9B85-64D3F78C26F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullMarket.WebUI", "src\BullMarket.WebUI\BullMarket.WebUI.csproj", "{B6B0E7AF-0664-422D-AF2A-BD87420FEAA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullMarket.WebUI", "src\BullMarket.WebUI\BullMarket.WebUI.csproj", "{B6B0E7AF-0664-422D-AF2A-BD87420FEAA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

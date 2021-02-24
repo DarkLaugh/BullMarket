@@ -1,0 +1,96 @@
+﻿using BullMarket.Application.DTOs.Requests;
+using BullMarket.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BullMarket.Infrastructure.Services
+{
+    public class AuthService : IAuthService
+    {
+        private readonly UserManager<IdentityUser<int>> userManager;
+
+        public AuthService(UserManager<IdentityUser<int>> userManager)
+        {
+            this.userManager = userManager;
+        }
+
+        public async Task<string> Register(RegisterRequest inputModel)
+        {
+            var user = new IdentityUser<int>
+            {
+                UserName = inputModel.Email,
+                Email = inputModel.Email
+            };
+
+            var result = await this.userManager.CreateAsync(user, inputModel.Password);
+
+            if (result.Succeeded)
+            {
+                string token = await GetToken(user);
+
+                return token;
+            }
+
+            throw new Exception();
+        }
+
+        public async Task<string> Login(LoginRequest inputModel)
+        {
+            var user = await userManager.FindByNameAsync(inputModel.Email);
+
+            if (user == null)
+            {
+                throw new Exception("Incorrect email!");
+            }
+
+            bool isPasswordCorrect = await userManager.CheckPasswordAsync(user, inputModel.Password);
+
+            if (!isPasswordCorrect)
+            {
+                throw new Exception("Incorrect password!");
+            }
+            string token = await GetToken(user);
+
+            return token;
+        }
+
+        private async Task<string> GetToken(IdentityUser<int> user)
+        {
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("0123456789ImportantSecret"));
+            var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
+
+            var claims = await GetUserClaims(user);
+
+            var tokenOptions = new JwtSecurityToken(
+                issuer: "https://localhost:5000",
+                audience: "http://localhost:4200",
+                claims: claims,
+                expires: DateTime.Now.AddHours(12),
+                signingCredentials: signingCredentials
+            );
+
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+            return token;
+        }
+
+        private async Task<List<Claim>> GetUserClaims(IdentityUser<int> user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim("id", user.Id.ToString()),
+                new Claim("username", user.UserName)
+            };
+
+            return claims;
+        }
+    }
+}
