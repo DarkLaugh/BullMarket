@@ -1,23 +1,38 @@
 ﻿using BullMarket.Domain.Common;
 using System;
+using System.Collections.Generic;
 
 namespace BullMarket.Domain.Entities
 {
     public class Stock : BaseEntity<Guid>
     {
-        public string Name { get; set; }
-        public string Abbreviation { get; set; }
-        public float CurrentPrice { get; set; }
-        public float PreviousPrice { get; set; }
-        public int QuantityAvailable { get; set; }
+        public string ClassName { get; set; }
+        public string Exchange { get; set; }
+        public string Symbol { get; set; }
+        public string Status { get; set; }
+        public bool Tradable { get; set; }
+        public bool Marginable { get; set; }
+        public bool Shortable { get; set; }
+        public bool EasyToBorrow { get; set; }
+        public List<Comment> Comments { get; set; }
 
-        public Stock(string name, string abbreviation, float currentPrice, float previousPrice, int quantityAvailable)
+
+        public Stock(string className, string exchange, string symbol, string status,
+            bool tradable, bool marginable, bool shortable, bool easyToBorrow)
         {
-            Name = name;
-            Abbreviation = abbreviation;
-            CurrentPrice = currentPrice;
-            PreviousPrice = previousPrice;
-            QuantityAvailable = quantityAvailable;
+            ClassName = className;
+            Exchange = exchange;
+            Symbol = symbol;
+            Status = status;
+            Tradable = tradable;
+            Marginable = marginable;
+            Shortable = shortable;
+            EasyToBorrow = easyToBorrow;
+        }
+
+        public Stock()
+        {
+
         }
     }
 }
