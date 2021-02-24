@@ -1,7 +1,8 @@
 using BullMarket.Application;
 using BullMarket.Infrastructure;
+using BullMarket.Infrastructure.Persistence;
 using BullMarket.Infrastructure.Services;
-using BullMarket.WebUI.Hubs;
+using BullMarket.Infrastructure.Services.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
