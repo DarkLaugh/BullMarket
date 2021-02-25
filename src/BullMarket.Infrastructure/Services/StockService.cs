@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BullMarket.Application.Common.Models;
 using BullMarket.Application.DTOs.Responses;
 using BullMarket.Application.Interfaces.Services;
@@ -22,10 +23,24 @@ namespace BullMarket.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task<PaginatedListResponse<StockResponse>> GetAllStocksPaginatedAsync(int pageIndex = 0, int pageSize = 10)
+        public async Task<string[]> GetStockSymbols()
         {
-            var allStocks = await _context.Stocks.ToListAsync();
-            return new PaginatedListResponse<StockResponse>(_mapper.Map<List<StockResponse>>(allStocks), allStocks.Count(), pageIndex, pageSize);
+            var result = await _context
+                .Stocks
+                .Select(s => s.Symbol)
+                .ToArrayAsync();
+
+            return result;
+        }
+
+        public async Task<List<StockResponse>> GetAllStocksPaginatedAsync(int pageIndex = 0, int pageSize = 10)
+        {
+            var allStocks = await _context
+                .Stocks
+                .ProjectTo<StockResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return allStocks;
         }
 
         public async Task<StockResponse> GetStockByIdAsync(Guid stockId)
