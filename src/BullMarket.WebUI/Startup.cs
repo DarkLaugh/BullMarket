@@ -109,7 +109,7 @@ namespace BullMarket.WebUI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<StockUpdateHub>("/hubs/stocks")
+                endpoints.MapHub<StockHub>("/hubs/stocks")
                     .RequireCors("DevPolicy");
             });
         }
