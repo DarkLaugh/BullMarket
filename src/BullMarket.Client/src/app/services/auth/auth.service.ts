@@ -4,6 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoginModel } from 'src/app/models/auth/login.model';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ApiPaths } from 'src/app/constants/api.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class AuthService {
   ) { }
 
   login(model: LoginModel): Observable<any> {
-    return this.http.post<any>(environment + 'login', model);
+    let url = environment.backEndUrl + ApiPaths.Login;
+    return this.http.post<any>(environment.backEndUrl + ApiPaths.Login, model);
   }
 
   loggedIn() {
