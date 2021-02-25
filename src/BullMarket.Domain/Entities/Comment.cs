@@ -12,5 +12,6 @@ namespace BullMarket.Domain.Entities
         public Stock Stock { get; set; }
         public int UserId { get; set; }
         public ApplicationUser User { get; set; }
+        public string CommentContent { get; set; }
     }
 }
