@@ -1,4 +1,5 @@
 using BullMarket.Application;
+using BullMarket.Domain.Entities;
 using BullMarket.Infrastructure;
 using BullMarket.Infrastructure.Persistence;
 using BullMarket.Infrastructure.Services;
@@ -29,7 +30,7 @@ namespace BullMarket.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddIdentity<IdentityUser<int>, IdentityRole<int>>()
+                .AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services
