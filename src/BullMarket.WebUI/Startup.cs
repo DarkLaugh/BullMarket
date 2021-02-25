@@ -2,7 +2,7 @@ using BullMarket.Application;
 using BullMarket.Infrastructure;
 using BullMarket.Infrastructure.Persistence;
 using BullMarket.Infrastructure.Services;
-using BullMarket.Infrastructure.Services.Hubs;
+using BullMarket.WebUI.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -69,10 +69,11 @@ namespace BullMarket.WebUI
                     };
                 });
 
+            services.AddCors();
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddHostedService<MigratorService>();
-            services.AddHostedService<StreamingService>();
+            services.AddHostedService<StreamingService<StockUpdateHub>>();
             services.AddControllers();
             services.AddSignalR();
         }
@@ -83,6 +84,12 @@ namespace BullMarket.WebUI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // global cors policy
+                app.UseCors(x => x
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(origin => true) // allow any origin
+                    .AllowCredentials()); // allow credentials
             }
 
             app.UseHttpsRedirection();
