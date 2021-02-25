@@ -1,11 +1,19 @@
-﻿namespace BullMarket.Application.DTOs.Responses
+﻿using System;
+using System.Collections.Generic;
+
+namespace BullMarket.Application.DTOs.Responses
 {
     public class StockResponse
     {
-        public string Name { get; set; }
-        public string Abbreviation { get; set; }
-        public float CurrentPrice { get; set; }
-        public float PreviousPrice { get; set; }
-        public int QuantityAvailable { get; set; }
+        public Guid Id { get; set; }
+        public string ClassName { get; set; }
+        public string Exchange { get; set; }
+        public string Symbol { get; set; }
+        public string Status { get; set; }
+        public bool Tradable { get; set; }
+        public bool Marginable { get; set; }
+        public bool Shortable { get; set; }
+        public bool EasyToBorrow { get; set; }
+        public List<CommentResponse> Comments { get; set; }
     }
 }
