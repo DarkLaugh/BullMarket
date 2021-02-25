@@ -1,5 +1,6 @@
 ﻿using BullMarket.Application.DTOs.Requests;
 using BullMarket.Application.Interfaces.Services;
+using BullMarket.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -13,16 +14,16 @@ namespace BullMarket.Infrastructure.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly UserManager<IdentityUser<int>> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public AuthService(UserManager<IdentityUser<int>> userManager)
+        public AuthService(UserManager<ApplicationUser> userManager)
         {
             this.userManager = userManager;
         }
 
         public async Task<string> Register(RegisterRequest inputModel)
         {
-            var user = new IdentityUser<int>
+            var user = new ApplicationUser
             {
                 UserName = inputModel.Email,
                 Email = inputModel.Email
@@ -60,7 +61,7 @@ namespace BullMarket.Infrastructure.Services
             return token;
         }
 
-        private async Task<string> GetToken(IdentityUser<int> user)
+        private async Task<string> GetToken(ApplicationUser user)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("0123456789ImportantSecret"));
             var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
@@ -80,7 +81,7 @@ namespace BullMarket.Infrastructure.Services
             return token;
         }
 
-        private async Task<List<Claim>> GetUserClaims(IdentityUser<int> user)
+        private async Task<List<Claim>> GetUserClaims(ApplicationUser user)
         {
             var claims = new List<Claim>
             {

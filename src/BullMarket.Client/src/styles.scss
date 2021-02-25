@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    background-color: var(--surface-a);
+    color: var(--text-color);
+    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+}
+
+.text-primary {
+    color: var(--primary-color);
+}
+
+a {
+    cursor: pointer;
+}

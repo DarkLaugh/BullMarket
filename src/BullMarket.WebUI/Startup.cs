@@ -1,4 +1,5 @@
 using BullMarket.Application;
+using BullMarket.Domain.Entities;
 using BullMarket.Infrastructure;
 using BullMarket.Infrastructure.Persistence;
 using BullMarket.Infrastructure.Services;
@@ -28,8 +29,19 @@ namespace BullMarket.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("DevPolicy", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200");
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                    builder.AllowCredentials();
+                });
+            });
+
             services
-                .AddIdentity<IdentityUser<int>, IdentityRole<int>>()
+                .AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services
@@ -96,12 +108,16 @@ namespace BullMarket.WebUI
 
             app.UseRouting();
 
+            app.UseCors("DevPolicy");
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<StockUpdateHub>("/hubs/stocks");
+                endpoints.MapHub<StockHub>("/hubs/stocks")
+                    .RequireCors("DevPolicy");
             });
         }
     }
