@@ -14,6 +14,7 @@ namespace BullMarket.Application.DTOs.Responses
         public bool Marginable { get; set; }
         public bool Shortable { get; set; }
         public bool EasyToBorrow { get; set; }
+        public decimal Price { get; set; }
         public List<CommentResponse> Comments { get; set; }
     }
 }
