@@ -24,7 +24,7 @@ namespace BullMarket.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetStocks()
         {
-            var result = await _stockService.GetAllStocksPaginatedAsync();
+            var result = await _stockService.GetAllStocksAsync();
 
             return Ok(result);
         }

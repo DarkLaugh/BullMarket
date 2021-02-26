@@ -85,7 +85,7 @@ namespace BullMarket.WebUI
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddHostedService<MigratorService>();
-            services.AddHostedService<StreamingService<StockUpdateHub>>();
+            services.AddHostedService<StreamingService<StockHub>>();
             services.AddControllers();
             services.AddSignalR();
         }
@@ -96,12 +96,6 @@ namespace BullMarket.WebUI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                // global cors policy
-                app.UseCors(x => x
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .SetIsOriginAllowed(origin => true) // allow any origin
-                    .AllowCredentials()); // allow credentials
             }
 
             app.UseHttpsRedirection();
