@@ -21,6 +21,8 @@ namespace BullMarket.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Symbol)
                 .HasMaxLength(10)
                 .IsRequired();
+            builder.Property(x => x.Price)
+                .HasColumnType("decimal(8,2)");
         }
     }
 }

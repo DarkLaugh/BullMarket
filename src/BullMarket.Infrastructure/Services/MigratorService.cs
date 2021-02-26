@@ -31,13 +31,13 @@ namespace BullMarket.Infrastructure.Services
                     {
                         await appContext.Stocks.AddRangeAsync(new List<Stock>
                         {
-                            new Stock ("us_equity", "NASDAQ", "AAPL", "active", true, true, true, true),
-                            new Stock ("us_equity", "NYSE", "AMC", "active", true, true, true, true),
-                            new Stock ("us_equity", "NYSE", "BB", "active", true, true, false, false),
-                            new Stock ("us_equity", "NYSE", "NOK", "active", true, false, true, true),
-                            new Stock ("us_equity", "NASDAQ", "QCOM", "active", true, true, false, true),
-                            new Stock ("us_equity", "NASDAQ", "INTC", "active", true, false, false, false),
-                            new Stock ("us_equity", "NASDAQ", "TSLA", "active", true, true, true, true)
+                            new Stock ("us_equity", "NASDAQ", "AAPL", "active", true, true, true, true, 1.23m),
+                            new Stock ("us_equity", "NYSE", "AMC", "active", true, true, true, true, 12.38m),
+                            new Stock ("us_equity", "NYSE", "BB", "active", true, true, false, false, 11.22m),
+                            new Stock ("us_equity", "NYSE", "NOK", "active", true, false, true, true, 6.78m),
+                            new Stock ("us_equity", "NASDAQ", "QCOM", "active", true, true, false, true, 56.12m),
+                            new Stock ("us_equity", "NASDAQ", "INTC", "active", true, false, false, false, 101.10m),
+                            new Stock ("us_equity", "NASDAQ", "TSLA", "active", true, true, true, true, 154.78m)
                         });
 
                         await appContext.SaveChangesAsync();

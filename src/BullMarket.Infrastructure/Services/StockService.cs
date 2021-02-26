@@ -33,7 +33,7 @@ namespace BullMarket.Infrastructure.Services
             return result;
         }
 
-        public async Task<List<StockResponse>> GetAllStocksPaginatedAsync(int pageIndex = 0, int pageSize = 10)
+        public async Task<IEnumerable<StockResponse>> GetAllStocksAsync()
         {
             var allStocks = await _context
                 .Stocks
