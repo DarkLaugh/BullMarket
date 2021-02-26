@@ -39,23 +39,11 @@ namespace BullMarket.Infrastructure.Services
 
             await _client.ConnectAndAuthenticateAsync();
 
-            var stocks = new List<Stock>();
-
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                using (var appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
-                {
-                    var stocksFromDb = await appContext.Stocks.ToListAsync();
-                    foreach (var stock in stocksFromDb)
-                    {
-                        stocks.Add(stock);
-                    }
-                }
-            }
+            var stocks = await GetStocksForStreaming();
 
             foreach (var stock in stocks)
             {
-                var subscription = _client.GetQuoteSubscription(stock.Symbol);
+                var subscription = _client.GetQuoteSubscription(stock);
                 _subscriptions.Add(subscription);
                 subscription.Received += async (result) => await SubscriptionResult_Received(result);
             }
@@ -75,6 +63,7 @@ namespace BullMarket.Infrastructure.Services
             if(CheckIfLastMessageIsOldEnough(obj))
             {
                 await _hub.Clients.All.SendAsync("stockUpdate", obj);
+                await UpdateStockPrice(obj.Symbol, obj.AskPrice);
             }
         }
 
@@ -91,11 +80,45 @@ namespace BullMarket.Infrastructure.Services
                 else
                 {
                     _lastBroadcastedMessages.Remove(lastMessage.Key);
-                    _lastBroadcastedMessages.Add(obj.Symbol, obj.TimeUtc);
+                    _lastBroadcastedMessages.TryAdd(obj.Symbol, obj.TimeUtc);
                 }
                 return true;
             }
             return false;
+        }
+
+        private async Task<IEnumerable<string>> GetStocksForStreaming()
+        {
+            var stocks = new List<string>();
+
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                using (var appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+                {
+                    var stocksFromDb = await appContext.Stocks.Select(s => s.Symbol).ToListAsync();
+                    foreach (var stock in stocksFromDb)
+                    {
+                        stocks.Add(stock);
+                    }
+                }
+            }
+
+            return stocks;
+        }
+
+        private async Task UpdateStockPrice(string symbol, decimal price)
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                using (var appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+                {
+                    var stockInDb = await appContext.Stocks.FirstOrDefaultAsync(x => x.Symbol == symbol);
+                    stockInDb.Price = price;
+
+                    appContext.Update(stockInDb);
+                    await appContext.SaveChangesAsync();
+                }
+            }
         }
     }
 }
