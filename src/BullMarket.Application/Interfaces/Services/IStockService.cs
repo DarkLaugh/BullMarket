@@ -1,4 +1,5 @@
 ﻿using BullMarket.Application.Common.Models;
+using BullMarket.Application.DTOs.Requests;
 using BullMarket.Application.DTOs.Responses;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace BullMarket.Application.Interfaces.Services
         Task<IEnumerable<StockResponse>> GetAllStocksAsync();
         Task<string[]> GetStockSymbols();
         Task<StockResponse> GetStockByIdAsync(Guid stockId);
+        Task<CommentResponse> AddCommentToStock(CommentRequest commentRequest);
     }
 }
