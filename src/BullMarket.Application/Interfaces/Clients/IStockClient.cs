@@ -1,13 +1,12 @@
 ﻿using Alpaca.Markets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using BullMarket.Application.DTOs.Responses;
 using System.Threading.Tasks;
 
-namespace BullMarket.WebUI.Hubs.Clients
+namespace BullMarket.Application.Interfaces.Clients
 {
     public interface IStockClient
     {
         Task StockUpdate(IStreamQuote data);
+        Task AddedComment(CommentResponse comment);
     }
 }

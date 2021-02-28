@@ -1,4 +1,5 @@
 ﻿using Alpaca.Markets;
+using BullMarket.Application.Interfaces.Clients;
 using BullMarket.Domain.Entities;
 using BullMarket.Infrastructure.Persistence;
 using Microsoft.AspNetCore.SignalR;
@@ -15,16 +16,16 @@ using System.Threading.Tasks;
 namespace BullMarket.Infrastructure.Services
 {
     public class StreamingService<THub> : IHostedService
-        where THub : Hub
+        where THub : Hub<IStockClient>
     {
         private readonly IConfiguration _configuration;
-        private readonly IHubContext<THub> _hub;
+        private readonly IHubContext<THub, IStockClient> _hub;
         private readonly IServiceProvider _serviceProvider;
         private IAlpacaDataStreamingClient _client;
         private List<IAlpacaDataSubscription<IStreamQuote>> _subscriptions = new List<IAlpacaDataSubscription<IStreamQuote>>();
         private Dictionary<string, DateTime> _lastBroadcastedMessages = new Dictionary<string, DateTime>();
 
-        public StreamingService(IConfiguration configuration, IHubContext<THub> hub, IServiceProvider serviceProvider)
+        public StreamingService(IConfiguration configuration, IHubContext<THub, IStockClient> hub, IServiceProvider serviceProvider)
         {
             _configuration = configuration;
             _hub = hub;
@@ -62,7 +63,7 @@ namespace BullMarket.Infrastructure.Services
         {
             if(CheckIfLastMessageIsOldEnough(obj))
             {
-                await _hub.Clients.All.SendAsync("stockUpdate", obj);
+                await _hub.Clients.All.StockUpdate(obj);
                 await UpdateStockPrice(obj.Symbol, obj.AskPrice);
             }
         }
