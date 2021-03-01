@@ -1,1 +1,43 @@
-<p>stock works!</p>
+<div class="p-fluid p-grid">
+    <div class="p-col-6 p-offset-3">
+        <h1 *ngIf="stock" class="p-text-center">{{ stock.symbol }}</h1>
+        <hr>
+
+        <div id="add-comment-section">
+            <div class="p-fluid p-formgrid p-grid p-ai-center">
+                <div class="p-field p-col-10">
+                    <textarea 
+                        pInputTextarea 
+                        [(ngModel)]="commentContent"
+                        [rows]="2" 
+                        [autoResize]="true">
+                    </textarea>
+                </div>
+                <div class="p-field p-col-2">
+                    <button 
+                        pButton 
+                        pRipple 
+                        type="button"
+                        label="Comment"
+                        class="p-button-primary"
+                        (click)="addComment()">
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="stock" id="comment-list-section" class="p-mt-4">
+            <div class="comment-wrapper" *ngFor="let comment of stock.comments">
+                <p-card [style]="{'margin-bottom': '2em', 'box-shadow': '1px 1px 5px white', 'padding': '1em 1em 0 1em'}">
+                    <ng-template pTemplate="header">
+                        <p-avatar icon="pi pi-user" styleClass="p-mr-2" shape="circle"></p-avatar>
+                        {{ comment.createdBy }}
+                    </ng-template>
+                    <p>
+                        {{ comment.commentContent }}
+                    </p>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</div>

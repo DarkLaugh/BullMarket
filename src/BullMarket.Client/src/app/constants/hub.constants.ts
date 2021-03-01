@@ -3,5 +3,10 @@ export enum HubPaths {
 }
 
 export enum HubEvents {
-    StockUpdate = "stockUpdate"
+    StockUpdate = 'StockUpdate',
+    AddedComment = 'AddedComment'
+}
+
+export enum HubMethods {
+    AddComment = 'AddStockComment'
 }
