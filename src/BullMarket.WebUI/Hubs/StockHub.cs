@@ -17,6 +17,7 @@ namespace BullMarket.WebUI.Hubs
 
         public async Task AddStockComment(CommentRequest commentRequest)
         {
+            commentRequest.Username = Context.User.Identity.Name;
             var savedComment = await _stockService.AddCommentToStock(commentRequest);
 
             if (savedComment != null)
