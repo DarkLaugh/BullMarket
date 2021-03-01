@@ -17,6 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { JwtModule } from '@auth0/angular-jwt';
 import { StockComponent } from './components/stock/stock.component';
 
@@ -36,6 +37,7 @@ import { StockComponent } from './components/stock/stock.component';
     InputTextModule,
     ButtonModule,
     TableModule,
+    InputTextareaModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token')

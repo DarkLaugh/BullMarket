@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as SignalR from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
-import { HubPaths } from 'src/app/constants/hub.constants';
+import { HubMethods, HubPaths } from 'src/app/constants/hub.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +26,10 @@ export class StockRealTimeService {
       .start()
       .then(() => console.log('Connection started!'))
       .catch(err => console.log('Connection failed! ' + err));
+  }
+
+  addComment(content: string, stockId: string): Promise<any> {
+    return this.connection
+      .invoke(HubMethods.AddComment, { commentContent: content, stockId: stockId });
   }
 }
