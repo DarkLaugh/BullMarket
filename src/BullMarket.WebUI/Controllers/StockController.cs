@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BullMarket.WebUI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/stocks")]
     [ApiController]
     [Authorize]
     public class StockController : ControllerBase
@@ -21,7 +21,7 @@ namespace BullMarket.WebUI.Controllers
             this._stockService = stockService;
         }
 
-        [HttpGet("all")]
+        [HttpGet]
         public async Task<IActionResult> GetAllStocks()
         {
             var result = await _stockService.GetAllStocksAsync();
