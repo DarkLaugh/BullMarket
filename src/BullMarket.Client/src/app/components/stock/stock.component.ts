@@ -33,7 +33,7 @@ export class StockComponent implements OnInit {
     this.realTimeService
       .connection
       .on(HubEvents.AddedComment, (res: CommentModel) => {
-        console.log(res);
+        this.stock.comments.unshift(res);
       });
   }
 
