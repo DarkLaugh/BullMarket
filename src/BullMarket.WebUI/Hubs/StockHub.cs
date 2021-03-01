@@ -1,11 +1,13 @@
 ﻿using BullMarket.Application.DTOs.Requests;
 using BullMarket.Application.Interfaces.Clients;
 using BullMarket.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
 namespace BullMarket.WebUI.Hubs
 {
+    [Authorize]
     public class StockHub : Hub<IStockClient>
     {
         private IStockService _stockService { get; }
