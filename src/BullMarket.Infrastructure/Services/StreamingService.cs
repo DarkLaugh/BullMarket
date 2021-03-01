@@ -1,4 +1,5 @@
 ﻿using Alpaca.Markets;
+using BullMarket.Application.DTOs.Responses;
 using BullMarket.Application.Interfaces.Clients;
 using BullMarket.Domain.Entities;
 using BullMarket.Infrastructure.Persistence;
@@ -63,7 +64,11 @@ namespace BullMarket.Infrastructure.Services
         {
             if(CheckIfLastMessageIsOldEnough(obj))
             {
-                await _hub.Clients.All.StockUpdate(obj);
+                await _hub.Clients.All.StockUpdate(new StockChangedResponse
+                {
+                    Symbol = obj.Symbol,
+                    Price = obj.BidPrice
+                });
                 await UpdateStockPrice(obj.Symbol, obj.AskPrice);
             }
         }

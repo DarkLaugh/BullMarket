@@ -6,7 +6,7 @@ namespace BullMarket.Application.Interfaces.Clients
 {
     public interface IStockClient
     {
-        Task StockUpdate(IStreamQuote data);
+        Task StockUpdate(StockChangedResponse data);
         Task AddedComment(CommentResponse comment);
     }
 }
