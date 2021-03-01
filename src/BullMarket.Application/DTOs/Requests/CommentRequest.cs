@@ -8,5 +8,6 @@ namespace BullMarket.Application.DTOs.Requests
     {
         public Guid StockId { get; set; }
         public string CommentContent { get; set; }
+        public string Username { get; set; }
     }
 }

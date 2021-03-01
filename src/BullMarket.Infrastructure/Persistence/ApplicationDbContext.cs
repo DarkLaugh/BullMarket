@@ -15,16 +15,11 @@ namespace BullMarket.Infrastructure.Persistence
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>, IApplicationDbContext
     {
-        private readonly ICurrentUserService _currentUserService;
-
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
-        public ApplicationDbContext
-            (DbContextOptions<ApplicationDbContext> options,
-            ICurrentUserService currentUserService) : base(options)
+        public ApplicationDbContext (DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            _currentUserService = currentUserService;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -34,19 +29,15 @@ namespace BullMarket.Infrastructure.Persistence
             base.OnModelCreating(builder);
         }
 
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        public Task<int> SaveAuditableChangesAsync<T>(string username, T auditableEntityIdentifier)
+            where T : struct
         {
-            AddAuditInfo();
-            return base.SaveChanges(acceptAllChangesOnSuccess);
+            AddAuditInfo(username, auditableEntityIdentifier);
+            return SaveChangesAsync();
         }
 
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-        {
-            AddAuditInfo();
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        private void AddAuditInfo()
+        private void AddAuditInfo<T>(string username, T auditableEntityIdentifier)
+            where T : struct
         {
             this
                 .ChangeTracker
@@ -60,19 +51,19 @@ namespace BullMarket.Infrastructure.Persistence
                 .ToList()
                 .ForEach(entry =>
                 {
-                    if (entry.Entity is AuditableEntity<object> entity)
+                    if (entry.Entity is AuditableEntity<T> entity)
                     {
                         var currentTime = GetTime();
 
                         if (entry.State == EntityState.Added)
                         {
                             entity.CreatedOn = currentTime;
-                            entity.CreatedBy = _currentUserService.GetUsername();
+                            entity.CreatedBy = username;
                         }
                         else if (entry.State == EntityState.Modified)
                         {
                             entity.UpdatedOn = currentTime;
-                            entity.UpdatedBy = _currentUserService.GetUsername();
+                            entity.UpdatedBy = username;
                         }
                     }
                 });

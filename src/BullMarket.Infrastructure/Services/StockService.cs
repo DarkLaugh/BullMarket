@@ -25,11 +25,13 @@ namespace BullMarket.Infrastructure.Services
 
         public StockService(
             ApplicationDbContext context, IMapper mapper,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _mapper = mapper;
             _user = httpContextAccessor?.HttpContext?.User;
+            _userManager = userManager;
         }
 
         public async Task<string[]> GetStockSymbols()
@@ -62,15 +64,14 @@ namespace BullMarket.Infrastructure.Services
 
         public async Task<CommentResponse> AddCommentToStock(CommentRequest commentRequest)
         {
-            var stockInDb = await _context.Stocks.FindAsync(commentRequest.StockId);
             var commentToSave = _mapper.Map<Comment>(commentRequest);
-            var user = await _userManager.FindByNameAsync(_user?.Identity?.Name);
+            var user = await _userManager.FindByNameAsync(commentRequest.Username);
             commentToSave.UserId = user.Id;
 
-            stockInDb.Comments.Add(commentToSave);
-            if (await _context.SaveChangesAsync() > 0)
+            await _context.Comments.AddAsync(commentToSave);
+            if (await _context.SaveAuditableChangesAsync(commentRequest.Username, commentToSave.Id) > 0)
             {
-                var savedComment = _mapper.Map<CommentResponse>(_context.Comments.FindAsync(commentToSave.Id));
+                var savedComment = _mapper.Map<CommentResponse>(await _context.Comments.FindAsync(commentToSave.Id));
                 return savedComment;
             }
 
