@@ -67,7 +67,7 @@ namespace BullMarket.Infrastructure.Services
                 await _hub.Clients.All.StockUpdate(new StockChangedResponse
                 {
                     Symbol = obj.Symbol,
-                    Price = obj.BidPrice
+                    Price = obj.AskPrice
                 });
                 await UpdateStockPrice(obj.Symbol, obj.AskPrice);
             }
@@ -80,13 +80,13 @@ namespace BullMarket.Infrastructure.Services
             {
                 if (lastMessage.Key == null)
                 {
-                    _lastBroadcastedMessages.TryAdd(obj.Symbol, DateTime.UtcNow);
+                    _lastBroadcastedMessages.Add(obj.Symbol, DateTime.UtcNow);
 
                 }
                 else
                 {
                     _lastBroadcastedMessages.Remove(lastMessage.Key);
-                    _lastBroadcastedMessages.TryAdd(obj.Symbol, obj.TimeUtc);
+                    _lastBroadcastedMessages.Add(obj.Symbol, obj.TimeUtc);
                 }
                 return true;
             }
