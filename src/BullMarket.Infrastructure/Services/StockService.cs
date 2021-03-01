@@ -56,10 +56,14 @@ namespace BullMarket.Infrastructure.Services
 
         public async Task<StockResponse> GetStockByIdAsync(Guid stockId)
         {
-            return _mapper.Map<StockResponse>(await _context
+            var stock = _mapper.Map<StockResponse>(await _context
                 .Stocks
                 .Include(x => x.Comments)
                 .FirstOrDefaultAsync(x => x.Id == stockId));
+
+            stock.Comments = stock.Comments.OrderByDescending(c => c.CreatedOn).ToList();
+
+            return stock;
         }
 
         public async Task<CommentResponse> AddCommentToStock(CommentRequest commentRequest)
