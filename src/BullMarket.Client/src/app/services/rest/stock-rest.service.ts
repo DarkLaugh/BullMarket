@@ -15,4 +15,8 @@ export class StockRestService {
   getStocks(): Observable<StockModel[]> {
     return this.http.get<StockModel[]>(environment.backEndUrl + ApiPaths.Stocks);
   }
+
+  getStockById(id: string): Observable<StockModel> {
+    return this.http.get<StockModel>(environment.backEndUrl + ApiPaths.Stocks + `/${id}`);
+  }
 }
