@@ -18,12 +18,14 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { JwtModule } from '@auth0/angular-jwt';
+import { StockComponent } from './components/stock/stock.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    StockComponent
   ],
   imports: [
     BrowserModule,
