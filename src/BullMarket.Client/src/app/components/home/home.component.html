@@ -1,6 +1,6 @@
 <div class="p-fluid p-grid">
     <div class="p-col-6 p-offset-3">
-        <h2>Stocks</h2>
+        <h1 class="p-text-center">Stocks</h1>
         <hr class="p-mb-4">
         <p-table [value]="stocks">
             <!-- <ng-template pTemplate="header">
@@ -11,7 +11,13 @@
             <ng-template pTemplate="body" let-stock>
                 <tr (click)="selectStock(stock)">
                     <td>{{ stock.symbol }}</td>
-                    <td class="p-text-right">{{ stock.price }}</td>
+                    <td class="p-text-right"
+                        [class.text-success]="stock.priceState && stock.priceState === PriceState.Up"
+                        [class.text-danger]="stock.priceState && stock.priceState === PriceState.Down">
+                        {{ stock.price }}
+                        <span *ngIf="stock.priceState && stock.priceState === PriceState.Up">&uarr;</span>
+                        <span *ngIf="stock.priceState && stock.priceState === PriceState.Down">&darr;</span>
+                    </td>
                 </tr>
             </ng-template>
         </p-table>

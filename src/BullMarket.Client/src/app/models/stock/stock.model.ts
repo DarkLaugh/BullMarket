@@ -11,5 +11,12 @@ export interface StockModel {
     shortable: boolean;
     easyToBorrow: boolean;
     price: number;
+    priceState: PriceState;
     comments: CommentModel[];
+}
+
+export enum PriceState {
+    Default = 'Default',
+    Up = 'Up', 
+    Down = 'Down'
 }
