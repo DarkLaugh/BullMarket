@@ -11,7 +11,7 @@ import { StockRestService } from 'src/app/services/rest/stock-rest.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   stocks: StockModel[] = [];
   PriceState = PriceState; 
 
@@ -20,12 +20,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     private realTimeService: StockRealTimeService,
     private router: Router) { }
 
-  ngOnDestroy(): void {
-    this.realTimeService
-      .connection
-      .off(HubEvents.StockUpdate);
-  }
-
   ngOnInit(): void {
     this.restService
       .getStocks()
@@ -33,8 +27,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         s.priceState = PriceState.Default;
         return s;
       }));
-
-    this.realTimeService.startConnection();
 
     this.realTimeService
       .connection

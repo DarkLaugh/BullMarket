@@ -14,7 +14,7 @@
                     <td class="p-text-right"
                         [class.text-success]="stock.priceState && stock.priceState === PriceState.Up"
                         [class.text-danger]="stock.priceState && stock.priceState === PriceState.Down">
-                        {{ stock.price }}
+                        ${{ stock.price }}
                         <span *ngIf="stock.priceState && stock.priceState === PriceState.Up">&uarr;</span>
                         <span *ngIf="stock.priceState && stock.priceState === PriceState.Down">&darr;</span>
                     </td>
