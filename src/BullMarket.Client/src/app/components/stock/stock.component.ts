@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HubEvents, HubMethods } from 'src/app/constants/hub.constants';
 import { CommentModel } from 'src/app/models/stock/comment.model';
-import { StockModel, StockDetailProperties } from 'src/app/models/stock/stock.model';
+import { StockModel } from 'src/app/models/stock/stock.model';
 import { StockRealTimeService } from 'src/app/services/real-time/stock-real-time.service';
 import { StockRestService } from 'src/app/services/rest/stock-rest.service';
 
@@ -14,8 +14,6 @@ import { StockRestService } from 'src/app/services/rest/stock-rest.service';
 export class StockComponent implements OnInit {
   stock: StockModel;
   commentContent: string = '';
-  
-  DetailProperties = StockDetailProperties;
 
   objectPropertyNames: { title: string, propertyName: string }[] = this.getObjectPropertyNames();
 
