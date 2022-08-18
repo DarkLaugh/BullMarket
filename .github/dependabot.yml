@@ -1,0 +1,44 @@
+version: 2
+updates:
+
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/src/BullMarket.Client"
+    target-branch: "development"
+    schedule:
+      interval: "daily"
+      time: "14:30"
+      timezone: "EET"
+
+  # Maintain dependencies for nuget
+  - package-ecosystem: "nuget"
+    directory: "/src/BullMarket.WebUI"
+    target-branch: "development"
+    schedule:
+      interval: "daily"
+      time: "14:30"
+      timezone: "EET"
+
+  - package-ecosystem: "nuget"
+    directory: "/src/BullMarket.Infrastructure"
+    target-branch: "development"
+    schedule:
+      interval: "daily"
+      time: "14:30"
+      timezone: "EET"
+  
+  - package-ecosystem: "nuget"
+    directory: "/src/BullMarket.Domain"
+    target-branch: "development"
+    schedule:
+      interval: "daily"
+      time: "14:30"
+      timezone: "EET"
+
+  - package-ecosystem: "nuget"
+    directory: "/src/BullMarket.Application"
+    target-branch: "development"
+    schedule:
+      interval: "daily"
+      time: "14:30"
+      timezone: "EET"
