@@ -7,7 +7,7 @@ updates:
     target-branch: "development"
     schedule:
       interval: "daily"
-      time: "14:30"
+      time: "14:50"
       timezone: "EET"
 
   # Maintain dependencies for nuget
@@ -16,7 +16,7 @@ updates:
     target-branch: "development"
     schedule:
       interval: "daily"
-      time: "14:30"
+      time: "14:50"
       timezone: "EET"
 
   - package-ecosystem: "nuget"
@@ -24,7 +24,7 @@ updates:
     target-branch: "development"
     schedule:
       interval: "daily"
-      time: "14:30"
+      time: "14:50"
       timezone: "EET"
   
   - package-ecosystem: "nuget"
@@ -32,7 +32,7 @@ updates:
     target-branch: "development"
     schedule:
       interval: "daily"
-      time: "14:30"
+      time: "14:50"
       timezone: "EET"
 
   - package-ecosystem: "nuget"
@@ -40,5 +40,5 @@ updates:
     target-branch: "development"
     schedule:
       interval: "daily"
-      time: "14:30"
+      time: "14:50"
       timezone: "EET"
