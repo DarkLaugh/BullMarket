@@ -1,40 +1,43 @@
 <div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-col-6 p-offset-3">
-        <h2>Login</h2>
-        <hr>
-    </div>
-    <div class="p-field p-col-6 p-offset-3 p-mb-2">
-        <label for="email">Email</label> <br>
-        <input 
-            type="text"
-            name="email" 
-            pInputText 
-            [(ngModel)]="model.email"
-            class="w-100" />
-    </div>
-    <div class="p-field p-col-6 p-offset-3 p-mb-4">
-        <label for="password">Password</label> <br>
-        <input 
-            type="password" 
-            name="password"
-            pPassword 
-            [(ngModel)]="model.password"
-            [feedback]="false"
-            class="w-100" />
-    </div>
-    <div class="p-field p-col-6 p p-offset-3 p-mb-0">
-        <button
-            pButton 
-            pRipple 
-            type="button" 
-            label="Login"
-            class="p-button-raised w-100"
-            (click)="login()">
-        </button>
-    </div>
-    <div class="p-field p-col-6 p-offset-3">
-        <h5 class="p-text-center">Don't have an account? 
-            <a class="text-primary">Sign up here.</a>
-        </h5>
-    </div>
+  <div class="p-field p-col-6 p-offset-3">
+    <h2>Login</h2>
+    <hr />
+  </div>
+  <div class="p-field p-col-6 p-offset-3 p-mb-2">
+    <label for="email">Email</label> <br />
+    <input
+      type="text"
+      name="email"
+      pInputText
+      [(ngModel)]="model.email"
+      class="w-100"
+    />
+  </div>
+  <div class="p-field p-col-6 p-offset-3 p-mb-4">
+    <label for="password">Password</label> <br />
+    <input
+      type="password"
+      name="password"
+      pPassword
+      [(ngModel)]="model.password"
+      [feedback]="false"
+      class="w-100"
+    />
+  </div>
+  <div class="p-field p-col-6 p p-offset-3 p-mb-0">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Login"
+      class="p-button-raised w-100"
+      (click)="login()"
+    ></button>
+  </div>
+  <div class="p-field p-col-6 p-offset-3">
+    <h5 class="p-text-center">
+      Login using another provider:
+      <a class="text-primary" (click)="keycloakLogin()">Keycloak</a>
+    </h5>
+  </div>
 </div>

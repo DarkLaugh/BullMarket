@@ -1,22 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
-    background-color: var(--surface-a);
-    color: var(--text-color);
-    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  height: 100%;
+}
+body {
+  background-color: var(--surface-a);
+  color: var(--text-color);
+  font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial,
+    Lucida Grande, sans-serif;
 }
 
 .text-primary {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 .text-success {
-    color: #C5E1A5;
+  color: #c5e1a5;
 }
 
 .text-danger {
-    color: rgba(239, 154, 154, 0.68);
+  color: rgba(239, 154, 154, 0.68);
 }
 
 a {
-    cursor: pointer;
+  cursor: pointer;
 }

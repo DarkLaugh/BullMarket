@@ -23,7 +23,7 @@ namespace BullMarket.Infrastructure.Services
         private readonly IHubContext<THub, IStockClient> _hub;
         private readonly IServiceProvider _serviceProvider;
         private IAlpacaDataStreamingClient _client;
-        private List<IAlpacaDataSubscription<IStreamQuote>> _subscriptions = new List<IAlpacaDataSubscription<IStreamQuote>>();
+        private List<IAlpacaDataSubscription<IQuote>> _subscriptions = new List<IAlpacaDataSubscription<IQuote>>();
         private Dictionary<string, DateTime> _lastBroadcastedMessages = new Dictionary<string, DateTime>();
 
         public StreamingService(IConfiguration configuration, IHubContext<THub, IStockClient> hub, IServiceProvider serviceProvider)
@@ -39,7 +39,7 @@ namespace BullMarket.Infrastructure.Services
                  .GetAlpacaDataStreamingClient(new SecretKey(_configuration.GetSection("AlpacaAPI").GetSection("KeyId").Value,
                                                         _configuration.GetSection("AlpacaAPI").GetSection("SecretKey").Value));
 
-            await _client.ConnectAndAuthenticateAsync();
+            var authResult = await _client.ConnectAndAuthenticateAsync();
 
             var stocks = await GetStocksForStreaming();
 
@@ -50,17 +50,17 @@ namespace BullMarket.Infrastructure.Services
                 subscription.Received += async (result) => await SubscriptionResult_Received(result);
             }
 
-            _client.Subscribe(_subscriptions);
+            await _client.SubscribeAsync(_subscriptions);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            _client.Unsubscribe(_subscriptions);
+            await _client.UnsubscribeAsync(_subscriptions);
 
             await _client.DisconnectAsync();
         }
 
-        private async Task SubscriptionResult_Received(IStreamQuote obj)
+        private async Task SubscriptionResult_Received(IQuote obj)
         {
             if(CheckIfLastMessageIsOldEnough(obj))
             {
@@ -73,10 +73,10 @@ namespace BullMarket.Infrastructure.Services
             }
         }
 
-        private bool CheckIfLastMessageIsOldEnough(IStreamQuote obj)
+        private bool CheckIfLastMessageIsOldEnough(IQuote obj)
         {
             var lastMessage = _lastBroadcastedMessages.FirstOrDefault(x => x.Key == obj.Symbol);
-            if (lastMessage.Key == null || (DateTime.UtcNow - lastMessage.Value).Seconds > 20)
+            if (lastMessage.Key == null || (DateTime.UtcNow - lastMessage.Value).Seconds > 5)
             {
                 if (lastMessage.Key == null)
                 {
@@ -86,7 +86,7 @@ namespace BullMarket.Infrastructure.Services
                 else
                 {
                     _lastBroadcastedMessages.Remove(lastMessage.Key);
-                    _lastBroadcastedMessages.Add(obj.Symbol, obj.TimeUtc);
+                    _lastBroadcastedMessages.Add(obj.Symbol, obj.TimestampUtc);
                 }
                 return true;
             }

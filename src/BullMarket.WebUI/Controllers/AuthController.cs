@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BullMarket.Application.DTOs.Requests;
 using BullMarket.Application.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace BullMarket.WebUI.Controllers
 {
@@ -14,10 +13,12 @@ namespace BullMarket.WebUI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService authService;
+        private readonly IOptionsMonitor<JwtBearerOptions> jwtOptions;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IOptionsMonitor<JwtBearerOptions> jwtOptions)
         {
             this.authService = authService;
+            this.jwtOptions = jwtOptions;
         }
 
         [HttpPost("register")]
@@ -34,6 +35,15 @@ namespace BullMarket.WebUI.Controllers
             string token = await authService.Login(request);
 
             return Ok(new { Token = token });
+        }
+
+        [AllowAnonymous]
+        [HttpGet("refresh-config")]
+        public IActionResult RefreshOpenIdConfiguration()
+        {
+            jwtOptions.Get("BullMarket").ConfigurationManager.RequestRefresh();
+
+            return Ok();
         }
     }
 }

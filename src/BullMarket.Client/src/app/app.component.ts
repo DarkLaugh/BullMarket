@@ -4,13 +4,9 @@ import { StockRealTimeService } from './services/real-time/stock-real-time.servi
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'BullMarketUI';
-  constructor(private realTimeService: StockRealTimeService) { }
-
-  ngOnInit(): void {
-    this.realTimeService.startConnection();
-  }
+  constructor() {}
 }

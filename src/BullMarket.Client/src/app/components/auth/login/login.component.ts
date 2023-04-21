@@ -6,30 +6,30 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   model: LoginModel = {
     email: '',
-    password: ''
+    password: '',
   };
 
-  constructor(
-    private authService: AuthService,
-    private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    if(this.authService.loggedIn) {
+    if (this.authService.loggedIn) {
       this.router.navigate(['']);
     }
   }
 
   login() {
-    this.authService
-      .login(this.model)
-      .subscribe(res => {
-        this.authService.saveToken(res.token);
-        this.router.navigate(['']);
-      });
+    this.authService.login(this.model).subscribe((res) => {
+      this.authService.saveToken(res.token);
+      this.router.navigate(['']);
+    });
+  }
+
+  keycloakLogin() {
+    this.authService.loginViaKeycloak();
   }
 }

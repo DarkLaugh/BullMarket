@@ -29,6 +29,7 @@ namespace BullMarket.WebUI.Controllers
             return Ok(result);
         }
 
+        [Authorize("CanAccessDetailedView")]
         [HttpGet("{stockId}")]
         public async Task<IActionResult> GetStockById(Guid stockId)
         {
